@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Viajeros - Agencia de Turismo</title>
+    <link rel="stylesheet" href="css/styles.css" /> 
+</head>
+<body>
+
+    <header class="header nav-principal-bar"> 
+        <div class="logo">🌍 Viajeros</div>
+        <nav class="nav-principal">
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Paquetes</a></li>
+                <li><a href="#">Contacto</a></li>
+                <li><a href="auth/login.php">Iniciar sesión</a></li>
+                <li><a href="auth/registro.php">Registrarse</a></li>
+                <li id="cerrar-sesion" style="display: none;"><a href="auth/logout.php">Cerrar sesión</a></li>
+            </ul>
+        </nav>
+        <div class="carrito-icono" id="carrito-icono">
+            🛒 <span id="contador-carrito">0</span>
+        </div>
+    </header>
+
+    <section class="hero-slider">
+        <div class="slider-container">
+            <img class="slider-img active" src="los roques.jpg" alt="Los Roques">
+            <img class="slider-img" src="roraima.jpg" alt="Roraima">
+            <img class="slider-img" src="margarita.jpg" alt="Margarita">
+        </div>
+    </section>
+
+    <main>
+        <section id="tours" class="paquetes">
+             </section>
+    </main>
+
+    <section class="seccion-testimonios">
+        <h2>Experiencias de Nuestros Viajeros ⭐</h2>
+        <div class="testimonios-carrusel">
+            
+            <div class="testimonio-card active">
+                <img src="familia1.png" alt="Foto de Cliente 1" class="avatar-cliente">
+                <p class="testimonio">"¡Los Roques fue increíble! La organización de Viajeros superó mis expectativas. Volveré a reservar con ustedes."</p>
+                <p class="nombre-cliente">— María F., Viaje a Los Roques</p>
+            </div>
+
+            <div class="testimonio-card">
+                <img src="C:\xampp\htdocs\viajeros\assets\img\familia2.png" alt="Foto de Cliente 2" class="avatar-cliente">
+                <p class="texto-testimonio">"La excursión al Roraima fue un reto inolvidable. Gracias por el excelente guía y la atención constante."</p>
+                <p class="nombre-cliente">— Carlos R., Aventura en Roraima</p>
+            </div>
+
+            <div class="testimonio-card">
+                <img src="C:\xampp\htdocs\viajeros\assets\img\familia3.png" alt="Foto de Cliente 3" class="avatar-cliente">
+                <p class="texto-testimonio">"Margarita es un paraíso. El paquete que tomamos fue perfecto, incluyendo el hotel y los traslados. ¡100% recomendado!"</p>
+                <p class="nombre-cliente">— Ana L., Escapada a Margarita</p>
+            </div>
+            
+        </div>
+    </section>
+    
+    <div id="modal-detalles" class="modal oculto">
+        <div class="modal-contenido">
+            <span class="cerrar-modal" id="cerrar-modal">&times;</span>
+            <div id="contenido-modal">
+                </div>
+        </div>
+    </div>
+
+    <aside id="carrito-panel" class="carrito">
+        <div class="carrito-header">
+            <h2>Tu Reserva</h2>
+            <button id="cerrar-carrito" class="boton-cerrar">✖</button>
+        </div>
+        
+        <div class="datos-reserva-inputs">
+            <label for="input_nombre">👤 Nombre:</label>
+            <input type="text" id="input_nombre" placeholder="Nombre completo" required>
+            
+            <label for="input_duracion">⏱ Duración (Ej: 1 semana):</label>
+            <input type="text" id="input_duracion" placeholder="Ej: 5 días / 4 noches" required>
+            
+            <label for="input_fecha_reserva">📅 Fecha de Viaje:</label>
+            <input type="date" id="input_fecha_reserva" required>
+        </div>
+        <div id="items-carrito"></div>
+        <div class="totales">
+            <p>Total de productos: <span id="total-productos">0</span></p>
+            <p>Total de compra: $<span id="total-compra">0</span></p>
+        </div>
+        <button id="confirmar-reserva" class="boton-cta">Confirmar Reserva</button>
+    </aside>
+
+    <div id="modal-login" class="modal oculto">
+        <div class="modal-contenido">
+            <span class="cerrar-modal" onclick="document.getElementById('modal-login').classList.add('oculto')">&times;</span>
+            <h3>Inicia sesión para continuar</h3>
+            <p>Debes iniciar sesión o registrarte para confirmar tu reserva.</p>
+            <div class="botones-modal">
+                <a href="auth/login.php" class="boton-cta">Iniciar sesión</a>
+                <a href="auth/registro.php" class="boton-secundario">Registrarse</a>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/modelo.js"></script>
+    <script src="js/vista.js"></script>
+    <script src="js/controlador.js"></script>
+    <script src="js/slider.js"></script> 
+    
+    <script>
+      fetch("auth/verificar_sesion.php")
+        .then(res => res.json())
+        .then(data => {
+          if (data.logueado) {
+            document.getElementById("cerrar-sesion").style.display = "inline-block";
+            // Ocultar login y registro si está logueado
+            const loginLink = document.querySelector('a[href="auth/login.php"]');
+            const registroLink = document.querySelector('a[href="auth/registro.php"]');
+            if (loginLink && loginLink.parentElement) loginLink.parentElement.style.display = "none";
+            if (registroLink && registroLink.parentElement) registroLink.parentElement.style.display = "none";
+          }
+        })
+        .catch(error => {
+          console.error("Error al verificar sesión:", error);
+        });
+    </script>
+</body>
+</html>
